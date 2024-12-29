@@ -1,0 +1,11 @@
+name: ItemLock
+version: 1.0
+main: me.pixelmaniastudios.itemlock.Main
+api-version: 1.16
+commands:
+  lock:
+    description: Lock an item in hand
+    usage: /lock
+  unlock:
+    description: Unlock an item in hand
+    usage: /unlock

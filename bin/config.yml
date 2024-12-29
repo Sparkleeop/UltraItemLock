@@ -1,0 +1,13 @@
+messages:
+  must_be_player: "Only players can use these commands."
+  no_item: "You must hold an item to lock or unlock it."
+  locked: "Item has been locked!"
+  unlocked: "Item has been unlocked!"
+  already_locked: "This item is already locked!"
+  not_locked: "This item is not locked!"
+  cannot_drop: "You cannot drop a locked item!"
+  cannot_move: "You cannot move a locked item!"
+  cannot_place: "You cannot place a locked block!"
+
+locked_lore:
+  - "Locked"
