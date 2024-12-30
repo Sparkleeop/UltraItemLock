@@ -1,5 +1,5 @@
 name: ItemLock
-version: 1.0
+version: 1.2.3
 main: me.pixelmaniastudios.itemlock.Main
 api-version: 1.16
 commands:
@@ -9,3 +9,12 @@ commands:
   unlock:
     description: Unlock an item in hand
     usage: /unlock
+  itemlockreload:
+    description: Reload the config files
+    usage: /itemlockreload
+    permission: itemlock.admin
+    
+permissions:
+  itemlock.admin:
+    description: Allows a player to execute administrative commands for Itemlock
+    default: op

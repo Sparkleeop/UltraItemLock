@@ -1,13 +1,18 @@
+version: 1.0
+
+prefix: '&7[&bItemLock&7]'
+
 messages:
-  must_be_player: "Only players can use these commands."
-  no_item: "You must hold an item to lock or unlock it."
-  locked: "Item has been locked!"
-  unlocked: "Item has been unlocked!"
-  already_locked: "This item is already locked!"
-  not_locked: "This item is not locked!"
-  cannot_drop: "You cannot drop a locked item!"
-  cannot_move: "You cannot move a locked item!"
-  cannot_place: "You cannot place a locked block!"
+  no_item: '&eYou must hold an item to lock or unlock it.'
+  already_locked: '&eThis item is already locked.'
+  locked: '&aThe item has been successfully locked.'
+  not_locked: '&cThis item is not locked.'
+  unlocked: '&aThe item has been successfully unlocked.'
+  cannot_drop: '&cYou cannot drop this locked item.'
+  cannot_move: '&cYou cannot move this locked item in your inventory.'
+  cannot_place: '&cYou cannot place this locked block item.'
+  must_be_player: '&cOnly players can execute this command.'
+  reload_success: '&aConfiguration reloaded successfully.'
 
 locked_lore:
   - "Locked"

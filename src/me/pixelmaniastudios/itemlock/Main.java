@@ -1,118 +1,156 @@
 package me.pixelmaniastudios.itemlock;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import me.pixelmaniastudios.commands.ReloadCommand;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
+
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.*;
 
 public class Main extends JavaPlugin implements Listener {
-
+	
+	private static Main instance;
     private FileConfiguration config;
 
     @Override
     public void onEnable() {
-        // Save the default config if it doesn't exist
+    	instance = this;
         this.saveDefaultConfig();
         this.config = getConfig();
-        
-        // Register the events for this plugin
+        updateConfig();
+
         Bukkit.getPluginManager().registerEvents(this, this);
-        
-        // Register the command executors
         getCommand("lock").setExecutor(this);
         getCommand("unlock").setExecutor(this);
+        getCommand("itemlockreload").setExecutor(new ReloadCommand());
     }
 
-    // /lock and /unlock commands
+    private void updateConfig() {
+        File configFile = new File(getDataFolder(), "config.yml");
+        FileConfiguration existingConfig = YamlConfiguration.loadConfiguration(configFile);
+
+        try (Reader defaultConfigStream = new InputStreamReader(getResource("config.yml"))) {
+            if (defaultConfigStream != null) {
+                FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(defaultConfigStream);
+                Set<String> defaultKeys = defaultConfig.getKeys(true);
+
+                for (String key : defaultKeys) {
+                    if (!existingConfig.contains(key)) {
+                        existingConfig.set(key, defaultConfig.get(key));
+                    }
+                }
+                existingConfig.save(configFile);
+            }
+        } catch (Exception e) {
+            getLogger().severe("Failed to update config.yml: " + e.getMessage());
+        }
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(config.getString("messages.must_be_player"));
+            sender.sendMessage(formatMessage("messages.must_be_player"));
             return false;
         }
 
         Player player = (Player) sender;
-        
+
         if (label.equalsIgnoreCase("lock")) {
-            if (player.getInventory().getItemInMainHand() == null || player.getInventory().getItemInMainHand().getType() == Material.AIR) {
-                player.sendMessage(config.getString("messages.no_item"));
+            ItemStack item = player.getInventory().getItemInMainHand();
+            if (isEmptyItem(item)) {
+                sendMessage(player, "messages.no_item");
                 return true;
             }
-            ItemStack item = player.getInventory().getItemInMainHand();
             if (isLocked(item)) {
-                player.sendMessage(config.getString("messages.already_locked"));
+                sendMessage(player, "messages.already_locked");
                 return true;
             }
             lockItem(item);
-            player.sendMessage(config.getString("messages.locked"));
+            sendMessage(player, "messages.locked");
         } else if (label.equalsIgnoreCase("unlock")) {
-            if (player.getInventory().getItemInMainHand() == null || player.getInventory().getItemInMainHand().getType() == Material.AIR) {
-                player.sendMessage(config.getString("messages.no_item"));
+            ItemStack item = player.getInventory().getItemInMainHand();
+            if (isEmptyItem(item)) {
+                sendMessage(player, "messages.no_item");
                 return true;
             }
-            ItemStack item = player.getInventory().getItemInMainHand();
             if (!isLocked(item)) {
-                player.sendMessage(config.getString("messages.not_locked"));
+                sendMessage(player, "messages.not_locked");
                 return true;
             }
             unlockItem(item);
-            player.sendMessage(config.getString("messages.unlocked"));
+            sendMessage(player, "messages.unlocked");
         }
         return true;
     }
 
-    // Lock the item by adding a lore
     private void lockItem(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            List<String> lore = config.getStringList("locked_lore");
-            meta.setLore(lore);  // Add "Locked" lore from the config
+            List<String> lore = new ArrayList<>();
+            for (String line : config.getStringList("locked_lore")) {
+                lore.add(formatMessage(line));
+            }
+            meta.setLore(lore);
             item.setItemMeta(meta);
         }
     }
 
-    // Unlock the item by removing the lore
     private void unlockItem(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setLore(null);  // Clear lore to unlock
+            meta.setLore(null);
             item.setItemMeta(meta);
         }
     }
 
-    // Check if the item is locked based on the lore
     private boolean isLocked(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         if (meta != null && meta.hasLore()) {
             List<String> lore = meta.getLore();
-            return lore != null && lore.contains("Locked");  // Check for the "Locked" lore
+            if (lore != null) {
+                List<String> lockedLore = config.getStringList("locked_lore");
+                for (String line : lockedLore) {
+                    if (lore.contains(ChatColor.stripColor(formatMessage(line)))) {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
 
-    // Prevent dropping locked items
+    private boolean isEmptyItem(ItemStack item) {
+        return item == null || item.getType() == Material.AIR;
+    }
+
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
         ItemStack item = event.getItemDrop().getItemStack();
         if (isLocked(item)) {
             event.setCancelled(true);
-            event.getPlayer().sendMessage(config.getString("messages.cannot_drop"));
+            sendMessage(event.getPlayer(), "messages.cannot_drop");
         }
     }
 
-    // Prevent moving locked items in inventory
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (event.getCurrentItem() == null || !(event.getWhoClicked() instanceof Player)) return;
@@ -120,17 +158,32 @@ public class Main extends JavaPlugin implements Listener {
         ItemStack item = event.getCurrentItem();
         if (isLocked(item)) {
             event.setCancelled(true);
-            ((Player) event.getWhoClicked()).sendMessage(config.getString("messages.cannot_move"));
+            sendMessage((Player) event.getWhoClicked(), "messages.cannot_move");
         }
     }
 
-    // Prevent placing locked block items
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         ItemStack item = event.getItemInHand();
         if (item.getType().isBlock() && isLocked(item)) {
             event.setCancelled(true);
-            event.getPlayer().sendMessage(config.getString("messages.cannot_place"));
+            sendMessage(event.getPlayer(), "messages.cannot_place");
         }
+    }
+
+    private String getPrefix() {
+        return ChatColor.translateAlternateColorCodes('&', config.getString("prefix", "&7[&6ItemLock&7] ")) + " ";
+    }
+
+    private String formatMessage(String key) {
+        return ChatColor.translateAlternateColorCodes('&', config.getString(key, key));
+    }
+
+    private void sendMessage(Player player, String key) {
+        player.sendMessage(getPrefix() + formatMessage(key));
+    }
+    
+    public static Main getInstance() {
+        return instance;
     }
 }
