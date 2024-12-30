@@ -1,20 +1,23 @@
-name: ItemLock
-version: 1.2.3
+name: UltraItemLock
+version: 1.2.5
 main: me.pixelmaniastudios.itemlock.Main
 api-version: 1.16
 commands:
   lock:
     description: Lock an item in hand
     usage: /lock
+    aliases: [slotlock, lockslot]
   unlock:
     description: Unlock an item in hand
     usage: /unlock
-  itemlockreload:
-    description: Reload the config files
-    usage: /itemlockreload
-    permission: itemlock.admin
+    aliases: [slotunlock, unlockslot]
+  ultraitemlockreload:
+    description: Reload the plugin configuration.
+    usage: /ultraitemlockreload
+    permission: itemlock.reload
+    aliases: [uilreload]
     
 permissions:
-  itemlock.admin:
+  itemlock.reload:
     description: Allows a player to execute administrative commands for Itemlock
     default: op

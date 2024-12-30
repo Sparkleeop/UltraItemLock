@@ -1,6 +1,9 @@
-version: 1.0
+# Plugin developed by PixelMania Studios. 
+# Do not change this
+version: 1.2
 
-prefix: '&7[&bItemLock&7]'
+# Update the prefix
+prefix: '&7[&dUltraItemLock&7]'
 
 messages:
   no_item: '&eYou must hold an item to lock or unlock it.'
@@ -12,7 +15,9 @@ messages:
   cannot_move: '&cYou cannot move this locked item in your inventory.'
   cannot_place: '&cYou cannot place this locked block item.'
   must_be_player: '&cOnly players can execute this command.'
-  reload_success: '&aConfiguration reloaded successfully.'
+  reload_success: "&aConfiguration reloaded successfully!"
+  no_permission: "&cYou don't have permission to use this command!"
 
+# Preffered not to change, if changed might break.
 locked_lore:
   - "Locked"

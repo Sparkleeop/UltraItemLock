@@ -20,28 +20,27 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-
 import java.io.File;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends JavaPlugin implements Listener {
-	
-	private static Main instance;
+
     private FileConfiguration config;
 
     @Override
     public void onEnable() {
-    	instance = this;
         this.saveDefaultConfig();
-        this.config = getConfig();
         updateConfig();
 
         Bukkit.getPluginManager().registerEvents(this, this);
         getCommand("lock").setExecutor(this);
         getCommand("unlock").setExecutor(this);
-        getCommand("itemlockreload").setExecutor(new ReloadCommand());
+        getCommand("ultraitemlockreload").setExecutor(new ReloadCommand(this));
+
+        getLogger().info("Ultra ItemLock has been enabled successfully!");
     }
 
     private void updateConfig() {
@@ -51,18 +50,28 @@ public class Main extends JavaPlugin implements Listener {
         try (Reader defaultConfigStream = new InputStreamReader(getResource("config.yml"))) {
             if (defaultConfigStream != null) {
                 FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(defaultConfigStream);
-                Set<String> defaultKeys = defaultConfig.getKeys(true);
+                boolean updated = false;
 
-                for (String key : defaultKeys) {
+                for (String key : defaultConfig.getKeys(true)) {
                     if (!existingConfig.contains(key)) {
                         existingConfig.set(key, defaultConfig.get(key));
+                        updated = true;
                     }
                 }
-                existingConfig.save(configFile);
+
+                if (updated) {
+                    existingConfig.save(configFile);
+                    getLogger().info("Config.yml updated with missing keys.");
+                } else {
+                    getLogger().info("Config.yml is already up-to-date.");
+                }
             }
         } catch (Exception e) {
             getLogger().severe("Failed to update config.yml: " + e.getMessage());
         }
+
+        reloadConfig();
+        this.config = getConfig();
     }
 
     @Override
@@ -172,7 +181,7 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private String getPrefix() {
-        return ChatColor.translateAlternateColorCodes('&', config.getString("prefix", "&7[&6ItemLock&7] ")) + " ";
+        return ChatColor.translateAlternateColorCodes('&', config.getString("prefix")) + " ";
     }
 
     private String formatMessage(String key) {
@@ -181,9 +190,5 @@ public class Main extends JavaPlugin implements Listener {
 
     private void sendMessage(Player player, String key) {
         player.sendMessage(getPrefix() + formatMessage(key));
-    }
-    
-    public static Main getInstance() {
-        return instance;
     }
 }
