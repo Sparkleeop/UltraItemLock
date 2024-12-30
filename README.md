@@ -1,5 +1,5 @@
-<h1><strong>🔒 ItemLock Plugin</strong></h1>
-<p>Take control of your Minecraft inventory like never before with <strong>ItemLock</strong>! Whether you're running a survival server or a creative hub, this plugin is the perfect tool to protect valuable items and prevent unwanted actions.</p>
+<h1><strong>🔒 Ultra ItemLock Plugin</strong></h1>
+<p>Take control of your Minecraft inventory like never before with <strong>UltraItemLock</strong>! Whether you're running a survival server or a skyblock server, this plugin is the perfect tool to protect valuable items and prevent unwanted actions.</p>
 <hr />
 <h2><strong>✨ Key Features</strong></h2>
 <ul>
