@@ -29,6 +29,7 @@
 <ul>
 <li><code>/lock</code> &ndash; Locks the item in the player&rsquo;s hand. <em>(Permission: <code>itemlock.lock</code>)</em></li>
 <li><code>/unlock</code> &ndash; Unlocks the item in the player&rsquo;s hand. <em>(Permission: <code>itemlock.unlock</code>)</em></li>
+<li><code>/uiareload</code>&ndash; Reloads the plugin's config files remotely. <em>(Permission: <code>itemlock.reload</code>)</em></li>
 </ul>
 <hr />
 <h3><strong>🌍 Why Choose ItemLock?</strong></h3>
@@ -38,8 +39,9 @@
 <li>🏰 <strong>Versatile Use Cases</strong> &ndash; Great for survival servers, adventure maps, and creative builds!</li>
 </ul>
 <hr />
-<h3><strong>📥 Get Started Today!</strong></h3>
-<p>Secure your server&rsquo;s inventory system with <strong>ItemLock</strong>. Download now and give your players the ultimate item management experience! 🎉</p>
-<p>&nbsp;</p>
-<hr />
-<p>&nbsp;</p>
+<h3>🔮Available on -</h3>
+<ul>
+<li><a href="https://www.spigotmc.org/">Spigotmc.org</a></li>
+<li><a href="https://modrinth.com/">Modrinth.com</a></li>
+<li><a href="https://polymart.org/resource/ultra-item-lock.7019">Polymart.org</a></li>
+</ul>
