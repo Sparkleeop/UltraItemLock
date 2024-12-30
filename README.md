@@ -1,35 +1,45 @@
-🔒 ItemLock Plugin
-
-Take control of your Minecraft inventory like never before with ItemLock! Whether you're running a survival server or a creative hub, this plugin is the perfect tool to protect valuable items and prevent unwanted actions.
-
-✨ Key Features
-
-🔐 Item Locking & Unlocking
-Players can lock items with a simple command, preventing them from being dropped, moved, or placed until unlocked.
-
-🎨 Customizable Messages
-Fully configurable messages to match your server’s style. Supports 🎨 hex colors, 🌈 gradients, and classic Minecraft color codes!
-
-📜 Lore-Based Locking
-Use customizable lore text to lock and identify items easily.
-
-❌ Event Prevention
-Stop locked items from being:
-
-⬇️ Dropped
-🔄 Moved in inventories
-🧱 Placed as blocks
-
-🛠️ Config Auto-Update
-Automatically updates your config.yml with new features while preserving your custom settings.
-
-🛡️ Commands & Permissions
-/lock – Locks the item in the player’s hand. (Permission: itemlock.lock)
-/unlock – Unlocks the item in the player’s hand. (Permission: itemlock.unlock)
-🌍 Why Choose ItemLock?
-⚡ Lightweight & Efficient – Perfect for all server types!
-🎛️ Easy Configuration – Tailor the plugin to your needs with robust customization options.
-🏰 Versatile Use Cases – Great for survival servers, adventure maps, and creative builds!
-📥 Get Started Today!
-
-Secure your server’s inventory system with ItemLock. Download now and give your players the ultimate item management experience! 🎉
+<h1><strong>🔒 ItemLock Plugin</strong></h1>
+<p>Take control of your Minecraft inventory like never before with <strong>ItemLock</strong>! Whether you're running a survival server or a creative hub, this plugin is the perfect tool to protect valuable items and prevent unwanted actions.</p>
+<hr />
+<h2><strong>✨ Key Features</strong></h2>
+<ul>
+<li>
+<p><strong>🔐 Item Locking &amp; Unlocking</strong><br />Players can lock items with a simple command, preventing them from being dropped, moved, or placed until unlocked.</p>
+</li>
+<li>
+<p><strong>🎨 Customizable Messages</strong><br />Fully configurable messages to match your server&rsquo;s style. Supports 🎨 <strong>hex colors</strong>, 🌈 <strong>gradients</strong>, and classic Minecraft color codes!</p>
+</li>
+<li>
+<p><strong>📜 Lore-Based Locking</strong><br />Use customizable lore text to lock and identify items easily.</p>
+</li>
+<li>
+<p><strong>❌ Event Prevention</strong><br />Stop locked items from being:</p>
+<ul>
+<li>⬇️ Dropped</li>
+<li>🔄 Moved in inventories</li>
+<li>🧱 Placed as blocks</li>
+</ul>
+</li>
+<li>
+<p><strong>🛠️ Config Auto-Update</strong><br />Automatically updates your <code>config.yml</code> with new features while preserving your custom settings.</p>
+</li>
+</ul>
+<hr />
+<h3><strong>🛡️ Commands &amp; Permissions</strong></h3>
+<ul>
+<li><code>/lock</code> &ndash; Locks the item in the player&rsquo;s hand. <em>(Permission: <code>itemlock.lock</code>)</em></li>
+<li><code>/unlock</code> &ndash; Unlocks the item in the player&rsquo;s hand. <em>(Permission: <code>itemlock.unlock</code>)</em></li>
+</ul>
+<hr />
+<h3><strong>🌍 Why Choose ItemLock?</strong></h3>
+<ul>
+<li>⚡ <strong>Lightweight &amp; Efficient</strong> &ndash; Perfect for all server types!</li>
+<li>🎛️ <strong>Easy Configuration</strong> &ndash; Tailor the plugin to your needs with robust customization options.</li>
+<li>🏰 <strong>Versatile Use Cases</strong> &ndash; Great for survival servers, adventure maps, and creative builds!</li>
+</ul>
+<hr />
+<h3><strong>📥 Get Started Today!</strong></h3>
+<p>Secure your server&rsquo;s inventory system with <strong>ItemLock</strong>. Download now and give your players the ultimate item management experience! 🎉</p>
+<p>&nbsp;</p>
+<hr />
+<p>&nbsp;</p>
